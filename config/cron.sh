@@ -14,8 +14,9 @@ run() {
 cd "$HOME/ppa-script"
 git pull
 
-# run
+# self-update & run
 cd "$MAINDIR"
+git pull
 CONFIG="$CONFDIR/config.sh" run
 
 # upload to ipfs and publish
