@@ -61,7 +61,7 @@ add_gh_pkg akasha AkashaProject/Community
 add_gh_pkg talenet talenet/talenet
 
 # Other
-add_url multimc "https://files.multimc.org/downloads/multimc_1.2-1.deb" all
+add_url multimc "$(curl -s https://multimc.org/ | grep -o "https://files.*deb")" all
 add_url pick "http://ppa.launchpad.net/sil/pick/ubuntu/pool/main/p/pick-colour-picker/pick-colour-picker_1.5-0~201702011054~ubuntu16.04.1_all.deb" all
 add_gh_pkg lanshare abdularis/lan-share
 
