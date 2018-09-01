@@ -38,6 +38,11 @@ for openb in $(curl -s https://openbazaar.org/download/ | grep -o "https://.*\.d
   add_url_auto openbazaar "$openb"
 done
 
+# Vagrant
+for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "https.*deb"); do
+  add_url_auto vagrant "$vagrant"
+done
+
 # Chrome (after install it will add it's own repo)
 chrome=$(curl --silent https://dl.google.com/linux/chrome/deb/dists/stable/main/binary-amd64/Packages | grep "google-chrome-stable/" | sed "s|.*pool|https://dl.google.com/linux/chrome/deb/pool|g")
 add_url_auto google-chrome-stable "$chrome"
