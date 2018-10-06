@@ -57,6 +57,7 @@ add_gh_pkg ipfs-desktop ipfs-shipyard/ipfs-desktop
 add_gh_pkg pathephone pathephone/pathephone-desktop
 add_gh_pkg_any tribler tribler/tribler
 add_gh_pkg orion siderus/orion
+add_gh_pkg bisq bisq-network/bisq
 
 # Cloud
 add_gh_pkg minikube kubernetes/minikube "" "" "amd64"
