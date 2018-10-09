@@ -65,6 +65,8 @@ done
 add_from_repo "https://dl.google.com/linux/chrome/deb" "stable/main" "google-chrome-stable"
 ## Keybase
 add_from_repo "https://prerelease.keybase.io/deb" "stable/main" "keybase"
+## Syncthing
+add_from_repo "https://apt.syncthing.net" "syncthing/stable" "syncthing"
 
 # IDE
 add_gh_pkg atom atom/atom
