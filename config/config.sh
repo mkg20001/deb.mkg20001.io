@@ -15,7 +15,7 @@ add_from_repo() {
     if [ $ex -ne 0 ] || [ -z "$PKG_DATA" ]; then
       log "repo->$PKG->$arch: Did not find anything for binary-$arch"
     else
-      PKG_JSON=$(echo "$PKG_DATA" | sed "s|\"|\\\"|g" | sed -r "s|^([A-Z][A-Za-z0-9-]+): (.*)|\"\1\": \"\2\",|g" | sed "s|^$|\"_\":1},{|g" )
+      PKG_JSON=$(echo "$PKG_DATA" | sed "s|\"|\\\"|g" | sed -r "s|^ .+$||g" | sed -r "s|^([A-Z][A-Za-z0-9-]+): (.*)|\"\1\": \"\2\",|g" | sed "s|^$|\"_\":1},{|g" )
       PKG_JSON="[{$PKG_JSON\"_\":1}]"
       PKG_URL=$(echo "$PKG_JSON" | jq -r "map(select(.Package == \"$PKG\"))[] | .Filename" | sort -r | head -n 1)
       if [ -z "$PKG_URL" ]; then
