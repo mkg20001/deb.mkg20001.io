@@ -9,7 +9,16 @@ add_from_repo() {
   PKG="$3"
 
   pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-amd64/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
-  add_url_auto "$PKG" "$pkgInRepo"
+  log "repo->$PKG: Updating from $REPO"
+  for arch in $ARCHS; do
+    pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-$arch/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
+    if [ -z "$pkgInRepo" ]; then
+      log "repo->$PKG->$arch: Did not find anything for binary-$arch"
+    else
+      log "repo-$PKG->$arch: Latest is $pkgInRepo"
+      add_url_auto "$PKG" "$pkgInRepo" "" "" "$arch"
+    fi
+  done
 }
 
 # Init Repo
