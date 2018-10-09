@@ -3,6 +3,15 @@
 OUT="$PWD/ubuntu"
 KEY="A35AD290"
 
+add_from_repo() {
+  REPO="$1"
+  DIST="$2"
+  PKG="$3"
+
+  pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-amd64/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
+  add_url_auto "$PKG" "$pkgInRepo"
+}
+
 # Init Repo
 _init
 
@@ -43,9 +52,11 @@ for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "htt
   add_url_auto vagrant "$vagrant"
 done
 
-# Chrome (after install it will add it's own repo)
-chrome=$(curl --silent https://dl.google.com/linux/chrome/deb/dists/stable/main/binary-amd64/Packages | grep "google-chrome-stable/" | sed "s|.*pool|https://dl.google.com/linux/chrome/deb/pool|g")
-add_url_auto google-chrome-stable "$chrome"
+# Stub (these pkgs will add own repo after install)
+## Chrome
+add_from_repo "https://dl.google.com/linux/chrome/deb" "stable/main" "google-chrome-stable"
+## Keybase
+add_from_repo "https://prerelease.keybase.io/deb" "stable/main" "keybase"
 
 # IDE
 add_gh_pkg atom atom/atom
