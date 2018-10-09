@@ -8,7 +8,6 @@ add_from_repo() {
   DIST="$2"
   PKG="$3"
 
-  pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-amd64/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
   log "repo->$PKG: Updating from $REPO"
   for arch in $ARCHS; do
     pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-$arch/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
