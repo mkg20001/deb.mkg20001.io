@@ -10,12 +10,21 @@ add_from_repo() {
 
   log "repo->$PKG: Updating from $REPO"
   for arch in $ARCHS; do
-    pkgInRepo=$(curl --silent "$REPO/dists/$DIST/binary-$arch/Packages" | grep "$PKG/" | sed "s|.*pool|$REPO/pool|g")
-    if [ -z "$pkgInRepo" ]; then
+    ex=0
+    PKG_DATA=$(wget -qO- "$REPO/dists/$DIST/binary-$arch/Packages" || ex=$?)
+    if [ $ex -ne 0 ] || [ -z "$PKG_DATA" ]; then
       log "repo->$PKG->$arch: Did not find anything for binary-$arch"
     else
-      log "repo-$PKG->$arch: Latest is $pkgInRepo"
-      add_url "$PKG" "$pkgInRepo" "$arch"
+      PKG_JSON=$(echo "$PKG_DATA" | sed "s|\"|\\\"|g" | sed -r "s|^([A-Z][A-Za-z0-9-]+): (.*)|\"\1\": \"\2\",|g" | sed "s|^$|\"_\":1},{|g" )
+      PKG_JSON="[{$PKG_JSON\"_\":1}]"
+      PKG_URL=$(echo "$PKG_JSON" | jq -r "map(select(.Package == \"$PKG\"))[] | .Filename" | sort -r | head -n 1)
+      if [ -z "$PKG_URL" ]; then
+        log "repo->$PKG->$arch: Found binary-$arch, but did not contain $PKG"
+      else
+        PKG_URL="$REPO/$PKG_URL"
+        log "repo-$PKG->$arch: Latest is $PKG_URL"
+        add_url "$PKG" "$PKG_URL" "$arch"
+      fi
     fi
   done
 }
