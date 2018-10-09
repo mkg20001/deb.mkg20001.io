@@ -15,7 +15,7 @@ add_from_repo() {
       log "repo->$PKG->$arch: Did not find anything for binary-$arch"
     else
       log "repo-$PKG->$arch: Latest is $pkgInRepo"
-      add_url_auto "$PKG" "$pkgInRepo" "" "" "$arch"
+      add_url "$PKG" "$pkgInRepo" "$arch"
     fi
   done
 }
