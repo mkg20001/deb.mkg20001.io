@@ -34,7 +34,7 @@ _init
 
 # Configure Repo
 PPA_ARCHS="amd64 arm64 armhf i386 ppc64el"
-for distro in xenial bionic cosmic; do
+for distro in xenial bionic cosmic disco; do
   add_dist "$distro" "DEB-MKG-$distro" "mkgs Update Server"
   add_comp "$distro" main
   for a in $PPA_ARCHS; do
