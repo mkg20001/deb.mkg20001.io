@@ -3,6 +3,25 @@
 OUT="$PWD/ubuntu"
 KEY="A35AD290"
 
+get_repo_clear() {
+  rfile_sucess=false
+  PKG_DATA=$(wget -qO- "$REPO/dists/$DIST/binary-$arch/Packages" || ex=$?)
+  if [ $ex -ne 0 ] || [ -z "$PKG_DATA" ]; then
+    # try xz instead
+    PKG_DATA=$(wget -qO- "$REPO/dists/$DIST/binary-$arch/Packages.xz" || ex=$?)
+    if [ $ex -ne 0 ] || [ -z "$PKG_DATA" ]; then
+      return 0
+    else
+      PKG_DATA=$(wget -qO- "$REPO/dists/$DIST/binary-$arch/Packages.xz" | xzcat)
+      if [ ! -z "$PKG_DATA" ]; then
+        rfile_sucess=true
+      fi
+    fi
+  else
+    rfile_sucess=true
+  fi
+}
+
 add_from_repo() {
   REPO="$1"
   DIST="$2"
@@ -11,8 +30,8 @@ add_from_repo() {
   log "repo->$PKG: Updating from $REPO"
   for arch in $ARCHS; do
     ex=0
-    PKG_DATA=$(wget -qO- "$REPO/dists/$DIST/binary-$arch/Packages" || ex=$?)
-    if [ $ex -ne 0 ] || [ -z "$PKG_DATA" ]; then
+    get_repo_clear
+    if ! $rfile_success; then
       log "repo->$PKG->$arch: Did not find anything for binary-$arch"
     else
       PKG_JSON=$(echo "$PKG_DATA" | sed "s|\"|\\\"|g" | sed -r "s|^ .+$||g" | sed -r "s|^([A-Z][A-Za-z0-9-]+): (.*)|\"\1\": \"\2\",|g" | sed "s|^$|\"_\":1},{|g" )
