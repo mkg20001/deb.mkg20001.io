@@ -161,6 +161,21 @@ add_from_repo "https://prerelease.keybase.io/deb" "stable" "main" "keybase"
 ## Syncthing
 add_from_repo "https://apt.syncthing.net" "syncthing" "stable" "syncthing"
 
+# Clone (repos that I just cloned)
+# TODO: full clone
+## Node v10
+add_from_repo "https://deb.nodesource.com/node_10.x" "" "main" "nodejs"
+# small-cleanup-script
+add_from_repo "http://ppa.launchpad.net/mkg20001/stable/ubuntu" "" "main" "small-cleanup-script"
+# color picker
+add_from_repo "http://ppa.launchpad.net/sil/pick/ubuntu" "" "main" "pick-colour-picker"
+# virtualbox
+add_from_repo "https://download.virtualbox.org/virtualbox/debian" "" "contrib" "virtualbox-5.2"
+# x2go
+# add_from_repo "http://ppa.launchpad.net/x2go/stable/ubuntu" "" "main" ""
+# riot.im
+add_from_repo "https://riot.im/packages/debian" "" "main" "riot-web"
+
 # IDE
 add_gh_pkg atom atom/atom
 
@@ -182,16 +197,12 @@ add_gh_pkg talenet talenet/talenet
 
 # Other
 add_url multimc "$(curl -s https://multimc.org/ | grep -o "https://files.*deb")" all
-add_from_repo "http://ppa.launchpad.net/sil/pick/ubuntu" "" "main" "pick-colour-picker"
 add_gh_pkg lanshare abdularis/lan-share
 
 # Self-compiled stuff
 for url in $(curl -s https://i.mkg20001.io/deb/ | grep -o './.*deb\"' | sed "s|./|https://i.mkg20001.io/deb/|g" | sed 's|"||g'); do
   add_url_auto "$(echo $url | sed -r "s|.*deb/([a-z0-9.-]+)_.*|\1|g")" "$url"
 done
-
-# small-cleanup-script
-add_from_repo "http://ppa.launchpad.net/mkg20001/stable/ubuntu" "" "main" "small-cleanup-script"
 
 # And... release
 
