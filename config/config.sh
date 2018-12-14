@@ -93,8 +93,18 @@ add_from_repo() {
             if $DIST_ITER; then
               if ! $firstFail; then
                 _db_w "$REPO_DB" "last_success_$arch" "$DISTR_NAME"
+              else
+                _db_w "$REPO_DB" "ls_$DISTR_NAME@$arch" "true"
+              fi
+              lsp=$(_db_r "$REPO_DB" "ls_$DISTR_NAME@$arch")
+              if [ ! -z "$lsp" ]; then # if first was $ls then do this to prevent accidental override
+                IGNORE_RM=true
               fi
               add_url "$PKG" "$PKG_URL" "$arch" "" "$DISTR_NAME"
+              if $IGNORE_RM && [ -z "$ls" ]; then
+                _db_w "$REPO_DB" "ls_$DISTR_NAME@$arch" ""
+              fi
+              IGNORE_RM=false
             else
               add_url "$PKG" "$PKG_URL" "$arch"
             fi
