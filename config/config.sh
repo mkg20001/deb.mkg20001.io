@@ -91,7 +91,9 @@ add_from_repo() {
             log "repo->$PKG->$dr_display->$arch: Latest is $PKG_URL"
             done=true
             if $DIST_ITER; then
-              _db_w "$REPO_DB" "last_success_$arch" "$DISTR_NAME"
+              if ! $firstFail; then
+                _db_w "$REPO_DB" "last_success_$arch" "$DISTR_NAME"
+              fi
               add_url "$PKG" "$PKG_URL" "$arch" "" "$DISTR_NAME"
             else
               add_url "$PKG" "$PKG_URL" "$arch"
