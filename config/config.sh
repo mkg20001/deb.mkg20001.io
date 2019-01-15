@@ -173,6 +173,8 @@ add_from_repo "https://apt.syncthing.net" "syncthing" "stable" "syncthing"
 
 # Clone (repos that I just cloned)
 # TODO: full clone
+## Gamehub
+add_from_repo "http://ppa.launchpad.net/tkashkin/gamehub/ubuntu" "" "main" "com.github.tkashkin.gamehub"
 ## Node v10
 add_from_repo "https://deb.nodesource.com/node_10.x" "" "main" "nodejs"
 # small-cleanup-script
