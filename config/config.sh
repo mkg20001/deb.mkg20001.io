@@ -210,6 +210,7 @@ add_gh_pkg talenet talenet/talenet
 # Other
 add_url multimc "$(curl -s https://multimc.org/ | grep -o "https://files.*deb")" all
 add_gh_pkg lanshare abdularis/lan-share
+add_gh_pkg nuclear nukeop/nuclear
 
 # Self-compiled stuff
 for url in $(curl -s https://i.mkg20001.io/deb/ | grep -o './.*deb\"' | sed "s|./|https://i.mkg20001.io/deb/|g" | sed 's|"||g'); do
