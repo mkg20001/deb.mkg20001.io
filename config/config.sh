@@ -3,7 +3,7 @@
 OUT="$PWD/ubuntu"
 KEY="A35AD290"
 
-. "$(dirname $(readlink -f $0))/_functions.sh"
+. "$CONFDIR/_functions.sh"
 
 # Init Repo
 _init

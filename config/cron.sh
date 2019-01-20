@@ -3,8 +3,8 @@
 set -ex
 
 THISFILE=$(readlink -f $0)
-CONFDIR="$(dirname $THISFILE)"
-MAINDIR="$(dirname $CONFDIR)"
+export CONFDIR="$(dirname $THISFILE)"
+export MAINDIR="$(dirname $CONFDIR)"
 
 run() {
   bash "$HOME/ppa-script/ppa-script.sh" 2>&1 | tee -a "$HOME/ppa-daily.log"
