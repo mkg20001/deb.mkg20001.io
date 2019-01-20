@@ -46,6 +46,11 @@ for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "htt
   add_url_auto vagrant "$vagrant"
 done
 
+# Siderus Orion
+ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
+ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
+add_url_auto orion "$ORION"
+
 # Stub (these pkgs will add own repo after install)
 ## Chrome
 add_from_repo "https://dl.google.com/linux/chrome/deb" "stable" "main" "google-chrome-stable"
@@ -80,7 +85,6 @@ add_gh_pkg webtorrent webtorrent/webtorrent-desktop
 add_gh_pkg ipfs-desktop ipfs-shipyard/ipfs-desktop
 add_gh_pkg pathephone pathephone/pathephone-desktop
 add_gh_pkg_any tribler tribler/tribler
-add_gh_pkg orion siderus/orion
 add_gh_pkg bisq bisq-network/bisq
 
 # Cloud
