@@ -46,6 +46,39 @@ for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "htt
   add_url_auto vagrant "$vagrant"
 done
 
+# Packer (zip2deb)
+
+# TODO: factor into own function
+PACKER_ZIP=$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https.*\\.zip")
+
+if [ "$(_db_w packer packer_zip)" != "$PACKER_ZIP" ]; then
+  log "zip2deb->packer: Generating from $PACKER_ZIP"
+  _tmp_init
+
+  wget "$PACKER_ZIP" -O "packer.zip"
+  unzip "packer.zip"
+  chmod 755 packer
+  mkdir -p usr/local/bin
+  mv packer usr/local/bin
+  OUT=$(basename "$PACKER_ZIP")
+  OUT=${OUT/".zip"/".tar.gz"}
+  tar cvfz "$OUT" usr
+  fakeroot alien -d --target=amd64 --fixperms "$OUT"
+  DEB=$(ls | grep ".deb$")
+
+  log "zip2deb->packer: Generated!"
+  _db_w packer packer_zip "$PACKER_ZIP"
+
+  OLD_DEB=$(_db_r packer packer_file)
+  if [ ! -z "$OLD_DEB" ]; then
+    rm_pkg_file "$OLD_DEB"
+  fi
+  add_pkg_file "$DEB"
+
+  _db_w packer packer_file "$DEB"
+  _tmp_exit
+fi
+
 # Siderus Orion
 ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
 ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
