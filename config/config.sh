@@ -60,10 +60,10 @@ if [ "$(_db_w packer packer_zip)" != "$PACKER_ZIP" ]; then
   chmod 755 packer
   mkdir -p usr/local/bin
   mv packer usr/local/bin
-  OUT=$(basename "$PACKER_ZIP")
-  OUT=${OUT/".zip"/".tar.gz"}
-  tar cvfz "$OUT" usr
-  fakeroot alien -d --target=amd64 --fixperms "$OUT"
+  Z2D_OUT=$(basename "$PACKER_ZIP")
+  Z2D_OUT=${Z2D_OUT/".zip"/".tar.gz"}
+  tar cvfz "$Z2D_OUT" usr
+  fakeroot alien -d --target=amd64 --fixperms "$Z2D_OUT"
   DEB=$(ls | grep ".deb$")
 
   log "zip2deb->packer: Generated!"
