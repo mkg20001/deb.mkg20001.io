@@ -14,7 +14,7 @@ add_dist "nuclear" "NUCLEAR" "Nuclear Music Player Repository"
 add_comp "nuclear" stable
 add_comp "nuclear" beta
 for a in $PPA_ARCHS; do
-  add_arch "$distro" "$a"
+  add_arch "nuclear" "$a"
 done
 
 add_gh_pkg_any nuclear nukeop/nuclear beta
