@@ -10,9 +10,9 @@ _init
 
 # Configure Repo
 PPA_ARCHS="amd64 i386" # i386 is so dpkg doesn't complain about it being missing
-add_dist "main" "NUCLEAR" "Nuclear Music Player Repository"
-add_comp "main" stable
-add_comp "main" beta
+add_dist "nuclear" "NUCLEAR" "Nuclear Music Player Repository"
+add_comp "nuclear" stable
+add_comp "nuclear" beta
 for a in $PPA_ARCHS; do
   add_arch "$distro" "$a"
 done
