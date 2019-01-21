@@ -51,11 +51,11 @@ done
 # TODO: factor into own function
 PACKER_ZIP=$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https.*\\.zip")
 
-if [ "$(_db_w packer packer_zip)" != "$PACKER_ZIP" ]; then
+if [ "$(_db_r packer packer_zip)" != "$PACKER_ZIP" ]; then
   log "zip2deb->packer: Generating from $PACKER_ZIP"
   _tmp_init
 
-  wget "$PACKER_ZIP" -O "packer.zip"
+  wget "$PACKER_ZIP" --progress=dot:giga -O "packer.zip"
   unzip "packer.zip"
   chmod 755 packer
   mkdir -p usr/local/bin
