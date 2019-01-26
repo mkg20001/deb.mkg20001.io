@@ -10,6 +10,12 @@ run() {
   bash "$HOME/ppa-script/ppa-script.sh" 2>&1 | tee -a "$HOME/ppa-daily.log"
 }
 
+if [ ! -z "$DEV" ]; then
+  cd "$MAINDIR"
+  CONFIG="$CONFDIR/config.dev.sh" run
+  exit 0
+fi
+
 # pull latest ppa-script
 cd "$HOME/ppa-script"
 git pull
