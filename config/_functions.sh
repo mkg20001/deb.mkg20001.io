@@ -118,3 +118,40 @@ add_from_repo() {
     done
   done
 }
+
+rp_init() {
+  RP_NAME="$1"
+  RP_URL="$2"
+  RP_CONTINUE=false
+
+  if [ "$(_db_r $RP_NAME rp_cur_url)" != "$RP_URL" ]; then
+    log "repackage->$RP_NAME: Generating from $RP_URL"
+    RP_CONTINUE=true
+
+    _tmp_init
+
+    RP_FILE=$(basename "$RP_URL")
+    wget "$RP_URL" --progress=dot:giga -O "$RP_FILE"
+  else
+    log "repackage->$RP_NAME: Used cached file $(_db_r $RP_NAME rp_cur_file) for $RP_URL"
+  fi
+}
+
+rp_finish() {
+  log "repackage->$RP_NAME: Converting $RP_TAR into deb"
+
+  fakeroot alien -v -d --target=amd64 --fixperms "$RP_TAR"
+  DEB=$(ls | grep ".deb$")
+
+  log "repackage->$RP_NAME: Generated $DEB!"
+  _db_w "$RP_NAME" rp_cur_url "$RP_URL"
+
+  OLD_DEB=$(_db_r "$RP_NAME" rp_cur_file)
+  if [ ! -z "$OLD_DEB" ]; then
+    rm_pkg_file "$OLD_DEB"
+  fi
+  add_pkg_file "$DEB"
+
+  _db_w "$RP_NAME" rp_cur_file "$DEB"
+  _tmp_exit
+}

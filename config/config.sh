@@ -46,37 +46,29 @@ for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "htt
   add_url_auto vagrant "$vagrant"
 done
 
-# Packer (zip2deb)
+# Hashicorp Packer
+rp_init packer "$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https.*\\.zip")"
+if $RP_CONTINUE; then
+  unzip "$RP_FILE"
+  install -D packer usr/local/bin/packer
+  RP_TAR=$(basename "$RP_FILE")
+  RP_TAR=${RP_TAR/".zip"/".tar.gz"}
+  tar cvfz "$RP_TAR" usr
+  rp_finish
+fi
 
-# TODO: factor into own function
-PACKER_ZIP=$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https.*\\.zip")
-
-if [ "$(_db_r packer packer_zip)" != "$PACKER_ZIP" ]; then
-  log "zip2deb->packer: Generating from $PACKER_ZIP"
-  _tmp_init
-
-  wget "$PACKER_ZIP" --progress=dot:giga -O "packer.zip"
-  unzip "packer.zip"
-  chmod 755 packer
-  mkdir -p usr/local/bin
-  mv packer usr/local/bin
-  Z2D_OUT=$(basename "$PACKER_ZIP")
-  Z2D_OUT=${Z2D_OUT/".zip"/".tar.gz"}
-  tar cvfz "$Z2D_OUT" usr
-  fakeroot alien -d --target=amd64 --fixperms "$Z2D_OUT"
-  DEB=$(ls | grep ".deb$")
-
-  log "zip2deb->packer: Generated!"
-  _db_w packer packer_zip "$PACKER_ZIP"
-
-  OLD_DEB=$(_db_r packer packer_file)
-  if [ ! -z "$OLD_DEB" ]; then
-    rm_pkg_file "$OLD_DEB"
-  fi
-  add_pkg_file "$DEB"
-
-  _db_w packer packer_file "$DEB"
-  _tmp_exit
+# Mitmproxy.org
+MITM_LATEST_VER=$(curl -s 'https://s3-us-west-2.amazonaws.com/snapshots.mitmproxy.org?delimiter=/&prefix=' | grep -o "<Prefix>[0-9.]*/</Prefix>" | grep -o "[0-9.]*" | sort -r | head -n 1)
+rp_init mitmproxy "https://snapshots.mitmproxy.org/$MITM_LATEST_VER/$(curl -s "https://s3-us-west-2.amazonaws.com/snapshots.mitmproxy.org?delimiter=/&prefix=$MITM_LATEST_VER/" | grep -o "<Key>[0-9.]*/[a-z0-9.-]*</Key>" | grep -o "/[a-z0-9.-]*" | grep -o "[a-z0-9.-]*" | grep linux | grep mitmproxy)"
+if $RP_CONTINUE; then
+  mkdir m && cd m
+  tar xfz "../$RP_FILE"
+  for m in mitm*; do
+    install -D "$m" "usr/local/bin/$m"
+  done
+  RP_TAR="$RP_FILE"
+  tar cvfz "$RP_TAR" usr
+  rp_finish
 fi
 
 # Siderus Orion
