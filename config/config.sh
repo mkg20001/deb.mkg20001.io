@@ -19,6 +19,19 @@ for distro in $PPA_DISTS; do
   done
 done
 
+# Misc internal stuff
+rp_init mkg-pin-repo https://mkg20001.io
+if $RP_CONTINUE; then
+  echo "Explanation: Prefer deb.mkg20001.io over the Ubuntu Native packages
+Package: *
+Pin: origin deb.mkg20001.io
+Pin-Priority: 1001" > pin
+  install -D pin etc/apt/preferences.d/pin-deb.mkg20001.pref
+  RP_TAR="mkg-pin-repo_1.0.0.tar.gz"
+  tar cvfz "$RP_TAR" etc
+  rp_finish
+fi
+
 # Anydesk
 for anydesk in $(curl -s https://anydesk.de/download?os=linux | grep '.deb"' | grep -o "https.*.deb"); do
   add_url_auto anydesk "$anydesk"
