@@ -9,9 +9,11 @@ gen_check() {
 gen_file() {
   cat install.head.sh
   if [ -z "$3" ]; then
+    echo
     gen_check
+    echo
   fi
-  cat install.tail.sh | sed "s|##LIST_FILE##|$1|g" | sed "s|##REPO_BASE##|$2|g" | sed "s|##REPO_DIST##|$3|g" | sed "s|##REPO_CHANNEL##|$4|g"
+  cat install.tail.sh | sed "s|#!.*||g" | sed "s|##LIST_FILE##|$1|g" | sed "s|##REPO_BASE##|$2|g" | sed "s|##REPO_DIST##|$3|g" | sed "s|##REPO_CHANNEL##|$4|g"
   echo "setup"
 }
 

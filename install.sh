@@ -26,8 +26,12 @@ prepare_pkgs() {
 }
 
 add_key() {
-  echo -n "Adding deb.mkg20001.io key... "
-  "${DLCMD[@]}" https://deb.mkg20001.io/key.asc | sudo apt-key add -
+  if apt-key list 2>/dev/null | grep "deb.mkg20001.io Repo Signing Key" > /dev/null; then
+    echo "Skip adding key, already added"
+  else
+    echo -n "Adding deb.mkg20001.io key... "
+    "${DLCMD[@]}" https://deb.mkg20001.io/key.asc | sudo apt-key add -
+  fi
 }
 
 check_alt() {
@@ -47,6 +51,7 @@ setup() {
   add_key
   add_repo
 }
+
 do_check_alt() {
   check_alt "SolydXK"       "solydxk-9" "Debian" "stretch"
   check_alt "Kali"          "sana"     "Debian" "jessie"
@@ -89,7 +94,8 @@ do_check_alt() {
   check_alt "Liquid Lemur"  "lemur-3"  "Debian" "stretch"
   check_alt "Continuum"     "mx-linux" "Debian" "stretch"
 }
-#!/bin/bash
+
+
 
 if [ -z "$REPO_CHANNEL" ]; then
   REPO_CHANNEL="main"
