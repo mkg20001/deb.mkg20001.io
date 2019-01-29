@@ -113,6 +113,10 @@ add_from_repo "https://download.virtualbox.org/virtualbox/debian" "" "contrib" "
 # add_from_repo "http://ppa.launchpad.net/x2go/stable/ubuntu" "" "main" ""
 # riot.im
 add_from_repo "https://riot.im/packages/debian" "" "main" "riot-web"
+# wireguard
+for w in wireguard-tools wireguard-dkms wireguard; do # TODO: merge into one
+  add_from_repo "http://ppa.launchpad.net/wireguard/wireguard/ubuntu" "" "main" "$w"
+done
 
 # IDE
 add_gh_pkg atom atom/atom
