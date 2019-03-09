@@ -94,6 +94,17 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# hivemind
+rp_init hivemind "$(gh_get_latest DarthSim/hivemind | grep -o "https.*linux-amd64.gz")"
+if $RP_CONTINUE; then
+  gzip -d "$RP_FILE"
+  mv -v hivemind* hivemind
+  install -D hivemind usr/local/bin/hivemind
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
 # Siderus Orion
 ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
 ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
