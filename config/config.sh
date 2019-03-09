@@ -27,8 +27,8 @@ Package: *
 Pin: origin deb.mkg20001.io
 Pin-Priority: 1001" > pin
   install -D pin etc/apt/preferences.d/pin-deb.mkg20001.pref
-  RP_TAR="mkg-pin-repo_1.0.0.tar.gz"
-  tar cvfz "$RP_TAR" etc
+  RP_VER=1.0.0
+  rp_pack etc
   rp_finish
 fi
 
@@ -64,9 +64,8 @@ rp_init packer "$(curl -s https://www.packer.io/downloads.html | grep linux_amd6
 if $RP_CONTINUE; then
   unzip "$RP_FILE"
   install -D packer usr/local/bin/packer
-  RP_TAR=$(basename "$RP_FILE")
-  RP_TAR=${RP_TAR/".zip"/".tar.gz"}
-  tar cvfz "$RP_TAR" usr
+  rp_ver
+  rp_pack usr
   rp_finish
 fi
 
@@ -79,8 +78,19 @@ if $RP_CONTINUE; then
   for m in mitm*; do
     install -D "$m" "usr/local/bin/$m"
   done
-  RP_TAR="$RP_FILE"
-  tar cvfz "$RP_TAR" usr
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
+# overmind
+rp_init overmind "$(gh_get_latest DarthSim/overmind | grep -o "https.*linux-amd64.gz")"
+if $RP_CONTINUE; then
+  gzip -d "$RP_FILE"
+  mv -v overmind* overmind
+  install -D overmind usr/local/bin/overmind
+  rp_ver
+  rp_pack usr
   rp_finish
 fi
 

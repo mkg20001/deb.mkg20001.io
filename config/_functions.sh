@@ -1,5 +1,9 @@
 #!/bin/bash
 
+gh_get_latest() {
+  curl -s "https://api.github.com/repos/$1/releases/latest?per_page=100" | jq -c ".assets[] | [ .browser_download_url ]"
+}
+
 get_repo_clear() {
   rfile_sucess=false
   PKG_DATA=$(wget -qO- "$REPO/dists/$DISTR/binary-$arch/Packages" || ex=$?)
@@ -137,10 +141,25 @@ rp_init() {
   fi
 }
 
-rp_finish() {
-  log "repackage->$RP_NAME: Converting $RP_TAR into deb"
+rp_ver() {
+  if [ -z "$1" ]; then
+    FROM="$RP_FILE"
+  else
+    FROM="$1"
+  fi
+  RP_VER=$(echo "$FROM" | sed -r "s|^.+([0-9]+\.[0-9]+\.[0-9]+).+$|\1|g")
+  log "repackage->$RP_NAME: Version detected as $RP_VER"
+}
 
-  fakeroot alien -v -d --target=amd64 --fixperms "$RP_TAR"
+rp_pack() {
+  RP_TAR="$RP_NAME-$RP_VER-amd64.tar.gz"
+  tar cvfz "$RP_TAR" "$@"
+}
+
+rp_finish() {
+  log "repackage->$RP_NAME: Converting $RP_FILE (as $RP_TAR) into deb"
+
+  fakeroot alien -v -d --bump=0 --keep-version --description="Converted for deb.mkg20001.io from $RP_URL" --target=amd64 --fixperms "$RP_TAR"
   DEB=$(ls | grep ".deb$")
 
   log "repackage->$RP_NAME: Generated $DEB!"
