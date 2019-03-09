@@ -105,6 +105,16 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# ipfs
+rp_init ipfs "https://dist.ipfs.io/$(curl -s https://dist.ipfs.io/ | grep go-ipfs | grep amd64 | grep linux | grep -o "go-ipfs.*.tar.gz")"
+if $RP_CONTINUE; then
+  tar xvfz "$RP_FILE"
+  install -D go-ipfs/ipfs usr/local/bin/ipfs
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
 # Siderus Orion
 ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
 ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
