@@ -106,7 +106,7 @@ if $RP_CONTINUE; then
 fi
 
 # ipfs
-rp_init ipfs "https://dist.ipfs.io/$(curl -s https://dist.ipfs.io/ | grep go-ipfs | grep amd64 | grep linux | grep -o "go-ipfs.*.tar.gz")"
+rp_init go-ipfs "https://dist.ipfs.io/$(curl -s https://dist.ipfs.io/ | grep go-ipfs | grep amd64 | grep linux | grep -o "go-ipfs.*.tar.gz")"
 if $RP_CONTINUE; then
   tar xvfz "$RP_FILE"
   install -D go-ipfs/ipfs usr/local/bin/ipfs
