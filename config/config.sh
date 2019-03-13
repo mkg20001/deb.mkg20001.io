@@ -32,6 +32,11 @@ Pin-Priority: 1001" > pin
   rp_finish
 fi
 
+# Cloudflare
+for cfd in $(curl -s https://developers.cloudflare.com/argo-tunnel/downloads/ | grep linux | grep -o "https.*.deb"); do
+  add_url_auto cloudflared "$cfd"
+done
+
 # Anydesk
 for anydesk in $(curl -s https://anydesk.de/download?os=linux | grep '.deb"' | grep -o "https.*.deb"); do
   add_url_auto anydesk "$anydesk"
