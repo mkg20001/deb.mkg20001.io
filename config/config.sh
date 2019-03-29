@@ -145,6 +145,7 @@ add_from_repo "http://ppa.launchpad.net/mkg20001/stable/ubuntu" "" "main" "small
 add_from_repo "http://ppa.launchpad.net/sil/pick/ubuntu" "" "main" "pick-colour-picker"
 # virtualbox
 add_from_repo "https://download.virtualbox.org/virtualbox/debian" "" "contrib" "virtualbox-5.2"
+add_from_repo "https://download.virtualbox.org/virtualbox/debian" "" "contrib" "virtualbox-6.0"
 # x2go
 # add_from_repo "http://ppa.launchpad.net/x2go/stable/ubuntu" "" "main" ""
 # riot.im
