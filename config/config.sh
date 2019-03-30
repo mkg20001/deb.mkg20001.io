@@ -42,6 +42,11 @@ for anydesk in $(curl -s https://anydesk.de/download?os=linux | grep '.deb"' | g
   add_url_auto anydesk "$anydesk"
 done
 
+# yggdrasil
+for ygg in $(curl -s 'https://circleci.com/api/v1.1/project/github/yggdrasil-network/yggdrasil-go/latest/artifacts?branch=master&filter=successful' | grep -o https.*.deb | grep "/yggdrasil-"); do
+  add_url_auto yggdrasil "$ygg"
+done
+
 # Zoom
 for arch in amd64 i386; do
   zoom=$(curl -sI https://zoom.us/client/latest/zoom_$arch.deb | grep "^Location: " | grep -o "https.*.deb")
