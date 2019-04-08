@@ -27,4 +27,5 @@ CONFIG="$CONFDIR/config.sh" run
 CONFIG="$CONFDIR/config.nuclear.sh" run
 
 # upload to ipfs and publish
-ipfs-dnslink-update cf deb.mkg20001.io "/ipfs/$(/usr/local/bin/ipfs add -Qr $MAINDIR)"
+HASH=$(/usr/local/bin/ipfs add -Qr "$MAINDIR")
+ipfs-dnslink-update cf deb.mkg20001.io "/ipfs/$HASH"
