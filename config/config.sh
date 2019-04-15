@@ -38,7 +38,7 @@ for cfd in $(curl -s https://developers.cloudflare.com/argo-tunnel/downloads/ | 
 done
 
 # Anydesk
-for anydesk in $(curl -s https://anydesk.de/download?os=linux | grep '.deb"' | grep -o "https.*.deb"); do
+for anydesk in $(curl -s https://anydesk.com/de/downloads/linux?os=linux | grep '.deb' | grep -o "https:[a-z0-9._/-]*deb" | sort | uniq); do
   add_url_auto anydesk "$anydesk"
 done
 
