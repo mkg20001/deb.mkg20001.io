@@ -125,6 +125,18 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# termshark
+rp_init termshark "$(gh_get_latest gcla/termshark | grep -o "https.*linux_x64.tar.gz")"
+if $RP_CONTINUE; then
+  tar xvfz "$RP_FILE"
+  set -x
+  mv -v "$(dir -w 1 | grep "^termshark" | grep "x64\$")/termshark" termshark
+  install -D termshark usr/local/bin/termshark
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
 # Siderus Orion
 ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
 ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
