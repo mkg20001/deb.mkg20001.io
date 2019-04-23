@@ -129,7 +129,6 @@ fi
 rp_init termshark "$(gh_get_latest gcla/termshark | grep -o "https.*linux_x64.tar.gz")"
 if $RP_CONTINUE; then
   tar xvfz "$RP_FILE"
-  set -x
   mv -v "$(dir -w 1 | grep "^termshark" | grep "x64\$")/termshark" termshark
   install -D termshark usr/local/bin/termshark
   rp_ver
