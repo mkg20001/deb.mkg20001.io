@@ -49,8 +49,14 @@ done
 
 # Zoom
 for arch in amd64 i386; do
-  zoom=$(curl -sI https://zoom.us/client/latest/zoom_$arch.deb | grep "^Location: " | grep -o "https.*.deb")
+  zoom=$(curl -sI https://zoom.us/client/latest/zoom_$arch.deb | grep "^[Ll]ocation: " | grep -o "https.*.deb")
   add_url_auto zoom "$zoom"
+done
+
+# Teamviewer
+for arch in amd64 i386; do
+  tv=$(curl -sI https://download.teamviewer.com/download/linux/teamviewer_$arch.deb | grep "^[Ll]ocation: " | grep -o "https.*.deb")
+  add_url_auto tv "$tv"
 done
 
 # Duniter

@@ -14,7 +14,17 @@ Currently offering:
 - [Syncthing](https://syncthing.net)
 - _and many more..._
 
-# Installation
+# Installing the Repository
+
+Simply run
+
+```
+curl https://deb.mkg20001.io/install.sh | bash -
+```
+
+The script will call sudo as needed
+
+# Setting up your own PPA-Server
 
 ```
 sudo apt-get install -y dpkg-dev distro-info jq gnupg2
