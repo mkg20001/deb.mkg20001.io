@@ -179,6 +179,7 @@ done
 
 # IDE
 add_gh_pkg atom atom/atom
+add_gh_pkg vscodium VSCodium/vscodium
 
 # P2P
 add_gh_pkg lbry lbryio/lbry-desktop "" "" "amd64"
