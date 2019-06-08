@@ -26,7 +26,7 @@ prepare_pkgs() {
 }
 
 add_key() {
-  if apt-key list 2>/dev/null | grep "deb.mkg20001.io Repo Signing Key" > /dev/null; then
+  if LC_ALL=C apt-key list 2>/dev/null | grep "deb.mkg20001.io Repo Signing Key" > /dev/null && ! LC_ALL=C apt-key list 2>/dev/null | grep "deb.mkg20001.io Repo Signing Key" | grep expired > /dev/null; then
     echo "Skip adding key, already added"
   else
     echo -n "Adding deb.mkg20001.io key... "
@@ -43,8 +43,14 @@ check_alt() {
 }
 
 add_repo() {
-  echo -n "Adding repo: "
-  echo "deb $REPO_ROOT $REPO_DIST $REPO_CHANNEL" | sudo tee /etc/apt/sources.list.d/mkg.list
+  repostr="deb $REPO_ROOT $REPO_DIST $REPO_CHANNEL"
+  repofile="/etc/apt/sources.list.d/$LIST_FILE.list"
+  if [ ! -e "$repofile" ] || [ "$(cat "$repofile")" != "$repostr" ]; then
+    echo -n "Adding repo: "
+    echo "$repostr" | sudo tee "$repofile"
+  else
+    echo "Skip adding repo, already added"
+  fi
 }
 
 setup() {

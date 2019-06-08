@@ -43,8 +43,14 @@ check_alt() {
 }
 
 add_repo() {
-  echo -n "Adding repo: "
-  echo "deb $REPO_ROOT $REPO_DIST $REPO_CHANNEL" | sudo tee /etc/apt/sources.list.d/mkg.list
+  repostr="deb $REPO_ROOT $REPO_DIST $REPO_CHANNEL"
+  repofile="/etc/apt/sources.list.d/$LIST_FILE.list"
+  if [ ! -e "$repofile" ] || [ "$(cat "$repofile")" != "$repostr" ]; then
+    echo -n "Adding repo: "
+    echo "$repostr" | sudo tee "$repofile"
+  else
+    echo "Skip adding repo, already added"
+  fi
 }
 
 setup() {
