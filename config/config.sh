@@ -131,6 +131,16 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# fs-repo-migrations
+rp_init fs-repo-migrations "https://dist.ipfs.io/$(curl -s https://dist.ipfs.io/ | grep fs-repo-migrations | grep amd64 | grep linux | grep -o "fs-repo-migrations.*.tar.gz")"
+if $RP_CONTINUE; then
+  tar xvfz "$RP_FILE"
+  install -D fs-repo-migrations/fs-repo-migrations usr/local/bin/fs-repo-migrations
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
 # termshark
 rp_init termshark "$(gh_get_latest gcla/termshark | grep -o "https.*linux_x64.tar.gz")"
 if $RP_CONTINUE; then
