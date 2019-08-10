@@ -152,6 +152,19 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# gifski
+
+GIFSKI=$(curl https://gif.ski/ | grep -o "/[a-z0-9.-]*.zip")
+GIFSKI="https://gif.ski$GIFSKI"
+if [ "$(_db_r gifski dl_cur_url)" != "$GIFSKI" ]; then
+  _tmp_init
+  wget "$GIFSKI" -O gifski.zip
+  unzip gifski.zip
+  add_pkg_file linux/*.deb
+  _tmp_exit
+  _db_w gifski dl_cur_url "$GIFSKI"
+fi
+
 # Siderus Orion
 ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
 ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
