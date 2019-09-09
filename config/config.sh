@@ -224,6 +224,7 @@ add_url multimc "$(curl -s https://multimc.org/ | grep -o "https://files.*deb")"
 add_gh_pkg lanshare abdularis/lan-share
 add_gh_pkg_any nuclear nukeop/nuclear
 add_gh_pkg curlie rs/curlie
+add_gh_pkg keeweb keeweb/keeweb "" "" "amd64"
 
 # Self-compiled stuff
 for url in $(curl -s https://i.mkg20001.io/deb/ | grep -o './.*deb\"' | sed "s|./|https://i.mkg20001.io/deb/|g" | sed 's|"||g'); do
