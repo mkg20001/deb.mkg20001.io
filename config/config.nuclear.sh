@@ -17,8 +17,8 @@ for a in $PPA_ARCHS; do
   add_arch "nuclear" "$a"
 done
 
-add_gh_pkg_any nuclear nukeop/nuclear beta
-add_gh_pkg nuclear nukeop/nuclear stable
+add_gh_pkg_any nuclear nukeop/nuclear beta "" "" "amd64"
+add_gh_pkg nuclear nukeop/nuclear stable "" "" "amd64"
 
 # Release
 
