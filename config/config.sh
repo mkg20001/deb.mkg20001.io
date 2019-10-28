@@ -222,7 +222,7 @@ add_gh_pkg talenet talenet/talenet
 # Other
 add_url multimc "$(curl -s https://multimc.org/ | grep -o "https://files.*deb")" all
 add_gh_pkg lanshare abdularis/lan-share
-add_gh_pkg_any nuclear nukeop/nuclear "" "" "amd64"
+add_gh_pkg nuclear nukeop/nuclear "" "" "amd64"
 add_gh_pkg curlie rs/curlie
 add_gh_pkg keeweb keeweb/keeweb "" "" "amd64"
 add_gh_pkg trilium zadam/trilium
