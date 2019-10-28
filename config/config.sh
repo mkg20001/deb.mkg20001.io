@@ -10,7 +10,7 @@ _init
 
 # Configure Repo
 PPA_ARCHS="amd64 arm64 armhf i386 ppc64el"
-PPA_DISTS="xenial bionic cosmic disco eoan"
+PPA_DISTS="xenial bionic cosmic disco eoan fossa"
 for distro in $PPA_DISTS; do
   add_dist "$distro" "DEB-MKG-$distro" "mkgs Update Server"
   add_comp "$distro" main
