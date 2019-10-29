@@ -110,6 +110,15 @@ if $RP_CONTINUE; then
   rp_finish
 fi
 
+# darch
+rp_init darch "$(gh_get_latest godarch/darch | grep -o "https.*-amd64.tar.gz")"
+if $RP_CONTINUE; then
+  tar xvfz "$RP_FILE"
+  rp_ver
+  rp_pack usr
+  rp_finish
+fi
+
 # hivemind
 rp_init hivemind "$(gh_get_latest DarthSim/hivemind | grep -o "https.*linux-amd64.gz")"
 if $RP_CONTINUE; then
