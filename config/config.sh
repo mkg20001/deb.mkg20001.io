@@ -66,9 +66,9 @@ for type in desktop server; do
 done
 
 # Openbazaar
-for openb in $(curl -s https://openbazaar.org/download/ | grep -o "https://.*\.deb"); do
-  add_url_auto openbazaar "$openb"
-done
+# for openb in $(curl -s https://openbazaar.org/download/ | grep -o "https://.*\.deb"); do
+#   add_url_auto openbazaar "$openb"
+# done
 
 # Vagrant
 for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "https.*deb"); do
