@@ -175,9 +175,9 @@ if [ "$(_db_r gifski dl_cur_url)" != "$GIFSKI" ]; then
 fi
 
 # Siderus Orion
-ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
-ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
-add_url_auto orion "$ORION"
+# ORION_VERSION=$(curl "https://get.siderus.io/orion/latest-version")
+# ORION="https://get.siderus.io/orion/orion_${ORION_VERSION}_amd64.deb"
+# add_url_auto orion "$ORION"
 
 # Stub (these pkgs will add own repo after install)
 ## Chrome
