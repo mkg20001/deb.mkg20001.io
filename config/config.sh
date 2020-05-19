@@ -76,7 +76,7 @@ for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "htt
 done
 
 # Hashicorp Packer
-rp_init packer "$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https.*\\.zip")"
+rp_init packer "$(curl -s https://www.packer.io/downloads.html | grep linux_amd64 | grep -o "https://releases.hashicorp.com/packer/[a-z0-9._/]*")"
 if $RP_CONTINUE; then
   unzip "$RP_FILE"
   install -D packer usr/local/bin/packer
