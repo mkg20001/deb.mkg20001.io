@@ -71,7 +71,7 @@ done
 # done
 
 # Vagrant
-for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep -o "https.*deb"); do
+for vagrant in $(curl -s https://www.vagrantup.com/downloads.html | grep linux_amd64 | grep -o "https://releases.hashicorp.com/vagrant/[a-z0-9._/]*" | grep linux_amd64 | sort -n | head -n 1); do
   add_url_auto vagrant "$vagrant"
 done
 
